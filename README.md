@@ -43,7 +43,7 @@ Now attach one or multiple security rules
 |[deny.insert]|Boolean/Function|Writable on insert. Parameters if function defined: userId, doc|
 |[deny.update]|Boolean/Function|Writable on update. Parameters if function defined: userId, doc, fieldNames, modifier|
 |[deny.remove]|Boolean/Function|Allow remove of documents with this field. Parameters if function defined: userId, doc|
-|visible|Boolean/Function|Define if field should be visible on client. Parameters if function defined: userId|
+|visible|Boolean/Function|Define if field should be visible on client. There are no parameters if as function defined|
 
 ### Allow / Deny
 
@@ -118,9 +118,8 @@ The 'visible' option can also be a function
 ```javascript  
   Posts.addSecurityRule({
     secret: { // fieldname
-      visible: function(userId) {
-        user = Meteor.users.findOne(userId);
-        return user.isAdmin();
+      visible: function() {
+        return calculateVisibility();
       }
     }
   });

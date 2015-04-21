@@ -15,8 +15,9 @@ Package.onUse(function(api) {
 
 Package.onTest(function (api) {
   api.use("tinytest");
+  api.use("coffeescript");
   api.use("maxnowack:collection-security");
 
-  api.addFiles("tests/collection-security.coffee", ["server"]);
+  api.addFiles("tests/collection-security.coffee");
 
 });
