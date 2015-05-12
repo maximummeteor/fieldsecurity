@@ -30,29 +30,42 @@ class CollectionSecurity
 
     @collection.find = @buildSecureFind @collection.find
 
-  getSecFunction: (scope, type) -> self = this; (userId, doc, fieldNames, modifier) ->
-    fields = fieldNames or []
-    fields.push key for key, value of doc if fields.length is 0
+  getSecFunction: (scope, type) ->
+    self = this
+    (userId, doc, fieldNames, modifier) ->
+      fields = fieldNames or []
+      fields.push key for key, value of doc if fields.length is 0
 
-    values = []
-    for field, fieldRule of self.rules when field in fields
-      rule = if typeof fieldRule[scope] is 'object' then fieldRule[scope][type] else fieldRule[scope]
-      if rule?
-        values.push if typeof rule is 'function' then value = rule.apply @, arguments else rule
+      values = []
+      for field, fieldRule of self.rules when field in fields
+        if typeof fieldRule[scope] is 'object'
+          rule = fieldRule[scope][type]
+        else
+          rule = fieldRule[scope]
+        if rule?
+          if typeof rule is 'function'
+            values.push rule.apply @, arguments
+          else
+            values.push rule
 
-    return CollectionSecurity._utilities.any values, true
+      return CollectionSecurity._utilities.any values, true
 
-  buildSecureFind: (original) -> self = this; (selector, options) ->
-    options = options or {}
-    options.fields = options.fields or {}
-    for field, fieldRule of self.rules when fieldRule['visible']?
-      rule = fieldRule['visible']
-      value =  if typeof rule is 'function' then value = rule.apply @, arguments else rule
+  buildSecureFind: (original) ->
+    self = this
+    (selector, options) ->
+      options = options or {}
+      options.fields = options.fields or {}
+      for field, fieldRule of self.rules when fieldRule['visible']?
+        rule = fieldRule['visible']
+        if typeof rule is 'function'
+          value = rule.apply @, arguments
+        else
+          value = rule
 
-      options.fields[field] = if value then 1 else 0
+        options.fields[field] = if value then 1 else 0
 
-    val = original.apply @, [selector or {}, options]
-    return val
+      val = original.apply @, [selector or {}, options]
+      return val
 
 
   attachSecurity: (rules) ->
