@@ -89,7 +89,6 @@ if Mongo?.Collection?
     instance = CollectionSecurity._getInstance this
     instance.attachSecurity rules
 
-else
-  Meteor.Collection.prototype.attachSecurity = (rules) ->
-    instance = CollectionSecurity._getInstance this
-    instance.attachSecurity rules
+Meteor.Collection.prototype.attachSecurity = (rules) ->
+  instance = CollectionSecurity._getInstance this
+  instance.attachSecurity rules
