@@ -11,7 +11,7 @@ class CollectionSecurity
     return instance for instance in @_instances when instance.id is identifier
 
     # create a new instance if there is no existing one
-    instance = new CollectionSecurity collection
+    instance = new CollectionSecurity(collection)
     @_instances.push instance
     return instance
 
@@ -44,7 +44,7 @@ class CollectionSecurity
           rule = fieldRule[scope]
         if rule?
           if typeof rule is 'function'
-            values.push rule.apply @, arguments
+            values.push rule.apply this, arguments
           else
             values.push rule
 
@@ -58,13 +58,13 @@ class CollectionSecurity
       for field, fieldRule of self.rules when fieldRule['visible']?
         rule = fieldRule['visible']
         if typeof rule is 'function'
-          value = rule.apply @, arguments
+          value = rule.apply this, arguments
         else
           value = rule
 
         options.fields[field] = if value then 1 else 0
 
-      val = original.apply @, [selector or {}, options]
+      val = original.apply this, [selector or {}, options]
       return val
 
 
@@ -75,10 +75,10 @@ class CollectionSecurity
 
 if Mongo?.Collection?
   Mongo.Collection.prototype.attachSecurity = (rules) ->
-    instance = CollectionSecurity._getInstance @
+    instance = CollectionSecurity._getInstance this
     instance.attachSecurity rules
 
 else
   Meteor.Collection.prototype.attachSecurity = (rules) ->
-    instance = CollectionSecurity._getInstance @
+    instance = CollectionSecurity._getInstance this
     instance.attachSecurity rules
