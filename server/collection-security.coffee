@@ -85,6 +85,8 @@ class CollectionSecurity
       val = original.apply this, [selector or {}, options]
       return val
 
+  getRules: ->
+    @_rules
 
   attachRules: (rules) ->
     @_rules = _.extend @_rules, rules
