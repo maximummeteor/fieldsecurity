@@ -1,5 +1,5 @@
 class CollectionSecurity
-  setLogging: (value) ->
+  @setLogging: (value) ->
     @_logging = value
   @_log: (msg, level = 'debug') ->
     console[level] msg if @_logging or level is 'error'
