@@ -3,6 +3,12 @@ class CollectionSecurity
     @_logging = value
   @_log: (msg, level = 'debug') ->
     console[level] msg if @_logging or level is 'error'
+  @_addMethods: (parent) ->
+    createMethodCall = (method) -> ->
+      instance = CollectionSecurity._getInstance this
+      instance[method].apply instance, arguments
+
+    parent::attachSecurity = createMethodCall 'attachSecurity'
   @_utilities:
     any: (array, value) ->
       return true for element in array when element is value
@@ -84,11 +90,7 @@ class CollectionSecurity
 
 
 
-if Mongo?.Collection?
-  Mongo.Collection.prototype.attachSecurity = (rules) ->
-    instance = CollectionSecurity._getInstance this
-    instance.attachSecurity rules
 
-Meteor.Collection.prototype.attachSecurity = (rules) ->
-  instance = CollectionSecurity._getInstance this
-  instance.attachSecurity rules
+if Mongo?.Collection?
+  CollectionSecurity._addMethods Mongo.Collection
+CollectionSecurity._addMethods Meteor.Collection
