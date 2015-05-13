@@ -28,7 +28,7 @@ class CollectionSecurity
 
   constructor: (@collection) ->
     @id = @collection._name
-    @rules = {}
+    @_rules = {}
 
     @collection.allow
       insert: @getSecFunction 'allow', 'insert'
@@ -48,7 +48,7 @@ class CollectionSecurity
       fields.push key for key, value of doc if fields.length is 0
 
       values = []
-      for field, fieldRule of self.rules when field in fields
+      for field, fieldRule of self._rules when field in fields
         if typeof fieldRule[scope] is 'object'
           rule = fieldRule[scope][type]
         else
@@ -66,7 +66,7 @@ class CollectionSecurity
     (selector, options) ->
       options = options or {}
       options.fields = options.fields or {}
-      for field, fieldRule of self.rules when fieldRule['visible']?
+      for field, fieldRule of self._rules when fieldRule['visible']?
         rule = fieldRule['visible']
         if typeof rule is 'function'
           value = rule.apply this, arguments
@@ -87,7 +87,7 @@ class CollectionSecurity
 
 
   attachRules: (rules) ->
-    @rules = _.extend @rules, rules
+    @_rules = _.extend @_rules, rules
 
   attachCRUD: (rules) ->
     prepared = {}
