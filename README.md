@@ -20,6 +20,8 @@ First, create your collection
   var Posts = new Mongo.Collection('posts');
 ```
 
+### attachRules
+
 Now attach one or multiple security rules
 ```javascript  
   Posts.attachRules({
@@ -32,7 +34,7 @@ Now attach one or multiple security rules
   });
 ```
 
-### Options
+#### Options
 |Name|Type|Description|
 |----|----|-----------|
 |allow|Boolean/Object/Function|Define if a field is writable. Parameters if function defined: userId, doc, fieldNames, modifier (fieldNames and modifier are only filled on update)|
@@ -45,7 +47,7 @@ Now attach one or multiple security rules
 |[deny.remove]|Boolean/Function|Allow remove of documents with this field. Parameters if function defined: userId, doc|
 |visible|Boolean/Function|Define if field should be visible on client. The parameters are the same as those of the corresponding "find" call.|
 
-### Allow / Deny
+#### Allow / Deny
 
 Let's make the field 'name' writable
 ```javascript  
@@ -95,7 +97,7 @@ If you want it more complex, you can define functions
   });
 ```
 
-### Client visibility
+#### Client visibility
 
 You're also able to define if fields are published to clients or not
 ```javascript  
