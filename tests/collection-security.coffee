@@ -1,4 +1,5 @@
 Posts = new Meteor.Collection('posts')
+Authors = new Meteor.Collection('authors')
 if Meteor.isServer
   CollectionSecurity.setLogging true
   Posts.attachSecurity
@@ -21,8 +22,24 @@ if Meteor.isServer
       visible: (selector, options) ->
         return options?.security?.visible
 
+  Authors.attachCRUD
+    name:
+      create:
+        allow: true
+        deny: false
+      read: true
+      update:
+        allow: true
+        deny: false
+      delete:
+        allow: true
+        deny: false
+
   Meteor.publish 'posts', ->
     Posts.find {}, security: visible: true
+
+  Meteor.publish 'authors', ->
+    Authors.find()
 
 if Meteor.isClient
   Meteor.subscribe 'posts', ->
@@ -82,4 +99,15 @@ if Meteor.isClient
         post = posts.fetch()[0]
 
         test.equal post.secret, 'hello', 'secret should be "hello"'
+        next()
+  Meteor.subscribe 'authors', ->
+    Tinytest.addAsync 'Collection-Security - use CRUD', (test, next) ->
+      Authors.insert
+        name: 'test'
+        secret: 'hello'
+      , (err, id) ->
+        authors = Authors.find _id: id
+        author = authors.fetch()[0]
+
+        test.equal author.secret, 'hello', 'secret should be "hello"'
         next()

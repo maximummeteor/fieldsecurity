@@ -9,6 +9,7 @@ class CollectionSecurity
       instance[method].apply instance, arguments
 
     parent::attachSecurity = createMethodCall 'attachSecurity'
+    parent::attachCRUD = createMethodCall 'attachCRUD'
   @_utilities:
     any: (array, value) ->
       return true for element in array when element is value
@@ -88,8 +89,27 @@ class CollectionSecurity
   attachSecurity: (rules) ->
     @rules = _.extend @rules, rules
 
+  attachCRUD: (rules) ->
+    prepared = {}
+    for field, rule of rules
+      prepared[field] = {}
+      prepared[field].visible = rule.read if rule.read
 
+      allow = {}
+      deny = {}
 
+      allow.insert = rule.create.allow if rule.create.allow?
+      deny.insert = rule.create.deny if rule.create.deny?
+
+      allow.update = rule.update.allow if rule.update.allow?
+      deny.update = rule.update.deny if rule.update.deny?
+
+      allow.remove = rule.delete.allow if rule.delete.allow?
+      deny.remove = rule.delete.deny if rule.delete.deny?
+
+      prepared[field].allow = allow unless _.isEmpty allow
+      prepared[field].deny = deny unless _.isEmpty deny
+    @attachSecurity prepared
 
 if Mongo?.Collection?
   CollectionSecurity._addMethods Mongo.Collection
