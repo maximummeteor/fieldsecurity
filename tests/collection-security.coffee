@@ -2,7 +2,7 @@ Posts = new Meteor.Collection('posts')
 Authors = new Meteor.Collection('authors')
 if Meteor.isServer
   CollectionSecurity.setLogging true
-  Posts.attachSecurity
+  Posts.attachRules
     name:
       allow: true
     createdAt:

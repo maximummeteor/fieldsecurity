@@ -22,7 +22,7 @@ First, create your collection
 
 Now attach one or multiple security rules
 ```javascript  
-  Posts.addSecurityRule({
+  Posts.attachRules({
     name: { // fieldname
       // see options below
     },
@@ -49,7 +49,7 @@ Now attach one or multiple security rules
 
 Let's make the field 'name' writable
 ```javascript  
-  Posts.addSecurityRule({
+  Posts.attachRules({
     name: { // fieldname
       allow: true // the field "name" is writable
     }
@@ -58,7 +58,7 @@ Let's make the field 'name' writable
 
 You can also use the deny flag
 ```javascript  
-  Posts.addSecurityRule({
+  Posts.attachRules({
     name: { // fieldname
       deny: true // the field "name" isn't writable
     }
@@ -67,7 +67,7 @@ You can also use the deny flag
 
 It's also possible, to break it down to insert/update/remove flags
 ```javascript  
-  Posts.addSecurityRule({
+  Posts.attachRules({
     name: { // fieldname
       allow: {
         insert: true,   // the field 'name' is writable on inserts
@@ -81,7 +81,7 @@ It's also possible, to break it down to insert/update/remove flags
 
 If you want it more complex, you can define functions
 ```javascript  
-  Posts.addSecurityRule({
+  Posts.attachRules({
     name: { // fieldname
       allow: {
         insert: true,
@@ -100,14 +100,14 @@ If you want it more complex, you can define functions
 You're also able to define if fields are published to clients or not
 ```javascript  
   // Show field
-  Posts.addSecurityRule({
+  Posts.attachRules({
     name: { // fieldname
       visible: true // will be exposed in a publication
     }
   });
 
   // Hide field
-  Posts.addSecurityRule({
+  Posts.attachRules({
     name: { // fieldname
       visible: false // will be hidden in a publication
     }
@@ -116,10 +116,10 @@ You're also able to define if fields are published to clients or not
 
 The 'visible' option can also be a function
 ```javascript  
-  Posts.addSecurityRule({
+  Posts.attachRules({
     secret: { // fieldname
       visible: function(selector, options) {
-        var userId = options.security.userId;        
+        var userId = options.security.userId;
         var user = Meteor.users.findOne(userId);
 
         return user.isAdmin();

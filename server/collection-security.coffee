@@ -8,7 +8,7 @@ class CollectionSecurity
       instance = CollectionSecurity._getInstance this
       instance[method].apply instance, arguments
 
-    parent::attachSecurity = createMethodCall 'attachSecurity'
+    parent::attachRules = createMethodCall 'attachRules'
     parent::attachCRUD = createMethodCall 'attachCRUD'
   @_utilities:
     any: (array, value) ->
@@ -86,7 +86,7 @@ class CollectionSecurity
       return val
 
 
-  attachSecurity: (rules) ->
+  attachRules: (rules) ->
     @rules = _.extend @rules, rules
 
   attachCRUD: (rules) ->
@@ -109,7 +109,7 @@ class CollectionSecurity
 
       prepared[field].allow = allow unless _.isEmpty allow
       prepared[field].deny = deny unless _.isEmpty deny
-    @attachSecurity prepared
+    @attachRules prepared
 
 if Mongo?.Collection?
   CollectionSecurity._addMethods Mongo.Collection
