@@ -66,7 +66,14 @@ class CollectionSecurity
         else
           value = rule
 
-        options.fields[field] = if value then 1 else 0
+        if options.fields[field]?
+          if not value and options.fields[field]
+            CollectionSecurity._log "Auto hiding field '#{field}'", 'warn'
+          else if value and not options.fields[field]
+            CollectionSecurity._log "Rule returned 'true' but field '#{field}' is explicitly hidden"
+            value = options.fields[field]
+        else
+          options.fields[field] = if value then 1 else 0
 
       val = original.apply this, [selector or {}, options]
       return val
