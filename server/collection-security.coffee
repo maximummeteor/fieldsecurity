@@ -72,8 +72,8 @@ class CollectionSecurity
           else if value and not options.fields[field]
             CollectionSecurity._log "Rule returned 'true' but field '#{field}' is explicitly hidden"
             value = options.fields[field]
-        else
-          options.fields[field] = if value then 1 else 0
+
+        options.fields[field] = 0 unless value
 
       val = original.apply this, [selector or {}, options]
       return val
