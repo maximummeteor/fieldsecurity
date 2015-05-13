@@ -80,7 +80,6 @@ if Meteor.isClient
       , (err, id) ->
         posts = Posts.find _id: id
         post = posts.fetch()[0]
-        console.log post
 
         test.equal post.secret, 'hello', 'secret should be "hello"'
         next()
