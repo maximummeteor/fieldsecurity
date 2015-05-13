@@ -1,7 +1,7 @@
 Package.describe({
   name: "maxnowack:collection-security",
   summary: "Meteor package that provides a simple way to define security rules for collections",
-  version: "0.1.0",
+  version: "0.8.0",
   git: "https://github.com/maxnowack/meteor-collection-security"
 });
 
