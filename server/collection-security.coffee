@@ -1,4 +1,8 @@
 class CollectionSecurity
+  setLogging: (value) ->
+    @_logging = value
+  @_log: (msg, level = 'debug') ->
+    console[level] msg if @_logging or level is 'error'
   @_utilities:
     any: (array, value) ->
       return true for element in array when element is value
