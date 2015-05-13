@@ -10,6 +10,7 @@ Package.onUse(function(api) {
   api.use(["coffeescript", "underscore"]);
 
   api.addFiles("server/collection-security.coffee", ["server"]);
+  api.export('CollectionSecurity','server');
 });
 
 
