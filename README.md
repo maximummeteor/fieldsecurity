@@ -1,4 +1,4 @@
-# maxnowack:collection-security
+# Meteor Collection Security [![Build Status](https://travis-ci.org/maxnowack/meteor-collection-security.svg)](https://travis-ci.org/maxnowack/meteor-collection-security)
 
 Meteor package that provides a simple way to define security rules for collections
 
