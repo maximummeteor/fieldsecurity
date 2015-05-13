@@ -7,7 +7,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom("1.0.1");
-  api.use(["coffeescript"]);
+  api.use(["coffeescript", "underscore"]);
 
   api.addFiles("server/collection-security.coffee", ["server"]);
 });
