@@ -1,24 +1,24 @@
 Package.describe({
-  name: "maxnowack:collection-security",
-  summary: "Meteor package that provides a simple way to define security rules for collections",
+  name: "maxnowack:fieldlevelsec",
+  summary: "Meteor package that provides defining field-level security rules",
   version: "0.8.0",
-  git: "https://github.com/maxnowack/meteor-collection-security"
+  git: "https://github.com/maxnowack/meteor-fieldlevelsec"
 });
 
 Package.onUse(function(api) {
   api.versionsFrom("1.0.1");
   api.use(["coffeescript", "underscore"]);
 
-  api.addFiles("server/collection-security.coffee", ["server"]);
-  api.export('CollectionSecurity','server');
+  api.addFiles("server/fieldlevelsec.coffee", ["server"]);
+  api.export('FieldLevelSec','server');
 });
 
 
 Package.onTest(function (api) {
   api.use("tinytest");
   api.use("coffeescript");
-  api.use("maxnowack:collection-security");
+  api.use("maxnowack:fieldlevelsec");
 
-  api.addFiles("tests/collection-security.coffee");
+  api.addFiles("tests/fieldlevelsec.coffee");
 
 });

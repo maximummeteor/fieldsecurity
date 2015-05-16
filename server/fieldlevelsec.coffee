@@ -1,11 +1,11 @@
-class CollectionSecurity
+class FieldLevelSec
   @setLogging: (value) ->
     @_logging = value
   @_log: (msg, level = 'debug') ->
     console[level] msg if @_logging or level is 'error'
   @_addMethods: (parent) ->
     createMethodCall = (method) -> ->
-      instance = CollectionSecurity._getInstance this
+      instance = FieldLevelSec._getInstance this
       instance[method].apply instance, arguments
 
     parent::attachRules = createMethodCall 'attachRules'
@@ -22,7 +22,7 @@ class CollectionSecurity
     return instance for instance in @_instances when instance.id is identifier
 
     # create a new instance if there is no existing one
-    instance = new CollectionSecurity(collection)
+    instance = new FieldLevelSec(collection)
     @_instances.push instance
     return instance
 
@@ -59,7 +59,7 @@ class CollectionSecurity
           else
             values.push rule
 
-      return CollectionSecurity._utilities.any values, true
+      return FieldLevelSec._utilities.any values, true
 
   buildSecureFind: (original) ->
     self = this
@@ -75,9 +75,9 @@ class CollectionSecurity
 
         if options.fields[field]?
           if not value and options.fields[field]
-            CollectionSecurity._log "Auto hiding field '#{field}'", 'warn'
+            FieldLevelSec._log "Auto hiding field '#{field}'", 'warn'
           else if value and not options.fields[field]
-            CollectionSecurity._log "Rule returned 'true' but field '#{field}' is explicitly hidden"
+            FieldLevelSec._log "Rule returned 'true' but field '#{field}' is explicitly hidden"
             value = options.fields[field]
 
         options.fields[field] = 0 unless value
@@ -114,5 +114,5 @@ class CollectionSecurity
     @attachRules prepared
 
 if Mongo?.Collection?
-  CollectionSecurity._addMethods Mongo.Collection
-CollectionSecurity._addMethods Meteor.Collection
+  FieldLevelSec._addMethods Mongo.Collection
+FieldLevelSec._addMethods Meteor.Collection

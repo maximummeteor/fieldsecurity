@@ -1,11 +1,11 @@
-# Meteor Collection Security [![Build Status](https://travis-ci.org/maxnowack/meteor-collection-security.svg)](https://travis-ci.org/maxnowack/meteor-collection-security)
+# Meteor Collection Security [![Build Status](https://travis-ci.org/maxnowack/meteor-fieldlevelsec.svg)](https://travis-ci.org/maxnowack/meteor-fieldlevelsec)
 
 Meteor package that provides defining field-level security rules
 
 ## Installation
 
 ```
-    meteor add maxnowack:collection-security
+    meteor add maxnowack:fieldlevelsec
 ```
 
 ## Description
