@@ -1,7 +1,7 @@
 Posts = new Meteor.Collection('posts')
 Authors = new Meteor.Collection('authors')
 if Meteor.isServer
-  FieldLevelSec.setLogging true
+  FieldSecurity.setLogging true
   Posts.attachRules
     name:
       allow: true
@@ -43,12 +43,12 @@ if Meteor.isServer
 
 if Meteor.isClient
   Meteor.subscribe 'posts', ->
-    Tinytest.addAsync 'FieldLevelSec - allow all', (test, next) ->
+    Tinytest.addAsync 'FieldSecurity - allow all', (test, next) ->
       Posts.insert name: 'test', (err) ->
         test.isUndefined err, 'err should be empty'
         next()
 
-    Tinytest.addAsync 'FieldLevelSec - allow only insert', (test, next) ->
+    Tinytest.addAsync 'FieldSecurity - allow only insert', (test, next) ->
       id = Posts.insert
         name: 'test'
         createdAt: new Date()
@@ -59,7 +59,7 @@ if Meteor.isClient
           test.isNotUndefined err, 'err should not be empty'
           next()
 
-    Tinytest.addAsync 'FieldLevelSec - allow insert with function', (test, next) ->
+    Tinytest.addAsync 'FieldSecurity - allow insert with function', (test, next) ->
       id = Posts.insert
         name: 'test'
         author: 'max'
@@ -70,7 +70,7 @@ if Meteor.isClient
           test.isNotUndefined err, 'err should not be empty'
           next()
 
-    Tinytest.addAsync 'FieldLevelSec - deny all', (test, next) ->
+    Tinytest.addAsync 'FieldSecurity - deny all', (test, next) ->
       id = Posts.insert
         name: 'test'
         internal:
@@ -79,7 +79,7 @@ if Meteor.isClient
         test.isNotUndefined err, 'err should not be empty'
         next()
 
-    Tinytest.addAsync 'FieldLevelSec - hide field', (test, next) ->
+    Tinytest.addAsync 'FieldSecurity - hide field', (test, next) ->
       Posts.insert
         name: 'test'
         hidden: 'hello'
@@ -90,7 +90,7 @@ if Meteor.isClient
         test.isUndefined post.hidden, 'test should be empty'
         next()
 
-    Tinytest.addAsync 'FieldLevelSec - hide field with function', (test, next) ->
+    Tinytest.addAsync 'FieldSecurity - hide field with function', (test, next) ->
       Posts.insert
         name: 'test'
         secret: 'hello'
@@ -101,7 +101,7 @@ if Meteor.isClient
         test.equal post.secret, 'hello', 'secret should be "hello"'
         next()
   Meteor.subscribe 'authors', ->
-    Tinytest.addAsync 'FieldLevelSec - use CRUD', (test, next) ->
+    Tinytest.addAsync 'FieldSecurity - use CRUD', (test, next) ->
       Authors.insert
         name: 'test'
         secret: 'hello'
