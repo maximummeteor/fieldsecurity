@@ -1,11 +1,11 @@
-# Meteor field-level Security [![Build Status](https://travis-ci.org/maximalmeteor/fieldsecurity.svg)](https://travis-ci.org/maximalmeteor/fieldsecurity)
+# Meteor field-level Security [![Build Status](https://travis-ci.org/maximummeteor/fieldsecurity.svg)](https://travis-ci.org/maximummeteor/fieldsecurity)
 
 Meteor package that provides defining field-level security rules
 
 ## Installation
 
 ```
-    meteor add maximal:fieldsecurity
+    meteor add maximum:fieldsecurity
 ```
 
 ## Description
