@@ -1,13 +1,13 @@
 Package.describe({
   name: "maximum:fieldsecurity",
   summary: "Meteor package that provides defining field-level security rules",
-  version: "0.8.1",
+  version: "0.9.0",
   git: "https://github.com/maximummeteor/fieldsecurity"
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom("1.0.1");
-  api.use(["coffeescript", "underscore"]);
+  api.versionsFrom("1.6.1");
+  api.use(["coffeescript@2.0.0", "underscore"]);
 
   api.addFiles("server/fieldsecurity.coffee", ["server"]);
   api.export('FieldSecurity','server');
